@@ -1,0 +1,1 @@
+<a href="squares">Squares</a>
