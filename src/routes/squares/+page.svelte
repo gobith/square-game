@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { squareGrid } from '../../lib/squares';
+	import { Board , Tile} from '../../lib/squares';
 	import { onMount } from 'svelte';
 	import Square from '../../lib/Square.svelte';
 
@@ -8,7 +8,7 @@
 	const scrollSpeed = 0.2;
 	let scale = 1;
 
-	const squares = squareGrid(size);
+	const board = new Board(size);
 
 	onMount(() => {
 		if (document) {
@@ -18,7 +18,11 @@
 		}
 	});
 
-	console.log(squares);
+	const squareClicked = (event: CustomEvent) => {
+		console.log(event.detail);
+	};
+
+	console.log(board);
 </script>
 
 <div id="container" class="container">
@@ -27,8 +31,8 @@
 		style="--scale: {scale} ; --size: {size} ; --square-size: {squareSize}px ; --board-size: {squareSize *
 			size}px"
 	>
-		{#each squares as square}
-			<Square {square} />
+		{#each board.tiles as tile}
+			<Square {tile} on:squareClicked={squareClicked}/>
 		{/each}
 	</div>
 </div>

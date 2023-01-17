@@ -1,4 +1,19 @@
-export class Square {
+export class Board {
+	tiles: Tile[] = [];
+	tileMap: Map<string, Tile> = new Map();
+	size: number;
+
+	constructor(size: number) {
+		this.size = size;
+		this.tiles = createTiles(size);
+		this.tiles.forEach((s) => {
+			this.tileMap.set(s.name(), s);
+		});
+	}
+}
+
+
+export class Tile {
 	x: number;
 	y: number;
 	north: string;
@@ -27,11 +42,11 @@ export class Square {
 	}
 }
 
-export const squareGrid = (n: number) => {
+export const createTiles = (n: number) => {
 	const result = [];
 	for (let x = 0; x < n; x++) {
 		for (let y = 0; y < n; y++) {
-			result.push(new Square(x, y));
+			result.push(new Tile(x, y));
 		}
 	}
 	return result;
