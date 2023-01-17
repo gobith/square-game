@@ -8,7 +8,7 @@
 	const scrollSpeed = 0.2;
 	let scale = 1;
 
-	const board = new Board(size);
+	let board = new Board(size);
 
 	onMount(() => {
 		if (document) {
@@ -19,7 +19,12 @@
 	});
 
 	const squareClicked = (event: CustomEvent) => {
+		
+		const tile = event.detail as Tile;
 		console.log(event.detail);
+		board.tileClicked(tile);
+		board = board
+		
 	};
 
 	console.log(board);

@@ -10,8 +10,16 @@ export class Board {
 			this.tileMap.set(s.name(), s);
 		});
 	}
-}
 
+	tileClicked(tile: Tile) {
+		if (tile.key() === '---') {
+			tile.north = randomWallFace();
+			tile.south = randomWallFace();
+			tile.east = randomWallFace();
+			tile.west = randomWallFace();
+		}
+	}
+}
 
 export class Tile {
 	x: number;
@@ -23,10 +31,10 @@ export class Tile {
 	constructor(x: number, y: number) {
 		this.x = x;
 		this.y = y;
-		this.north = 'wall';
-		this.south = 'wall';
-		this.east = 'wall';
-		this.west = 'wall';
+		this.north = '';
+		this.south = '';
+		this.east = '';
+		this.west = '';
 	}
 
 	name() {
@@ -41,6 +49,10 @@ export class Tile {
 		return this.north + '-' + this.south + '-' + this.east + '-' + this.west;
 	}
 }
+
+const randomWallFace = () => {
+	return Math.random() > 0.5 ? 'open' : 'wall';
+};
 
 export const createTiles = (n: number) => {
 	const result = [];
