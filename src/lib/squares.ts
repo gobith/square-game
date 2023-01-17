@@ -11,12 +11,60 @@ export class Board {
 		});
 	}
 
-	tileClicked(tile: Tile) {
+	tileClicked(tileName: string) {
+		const tile = this.tileMap.get(tileName)!;
+		console.log('tileClicked', tileName, tile.key(), tile);
+
 		if (tile.key() === '---') {
-			tile.north = randomWallFace();
-			tile.south = randomWallFace();
-			tile.east = randomWallFace();
-			tile.west = randomWallFace();
+			this.setNorthFace(tile);
+			this.setSouthFace(tile);
+			this.setEastFace(tile);
+			this.setWestFace(tile);
+		}
+	}
+
+	setNorthFace(tile: Tile) {
+		if (tile.x === 0) {
+			tile.north = 'wall';
+		} else {
+			tile.north = this.tileMap.get(`${tile.x - 1}@${tile.y}`)!.south;
+			if (tile.north === '') {
+				tile.north = randomWallFace();
+			}
+		}
+	}
+
+	setSouthFace(tile: Tile) {
+		if (tile.x === this.size - 1) {
+			tile.south = 'wall';
+		} else {
+			tile.south = this.tileMap.get(`${tile.x + 1}@${tile.y}`)!.north;
+			if (tile.south === '') {
+				tile.south = randomWallFace();
+			}
+		}
+	}
+
+	setEastFace(tile: Tile) {
+		if (tile.y === this.size - 1) {
+			tile.east = 'wall';
+		} else {
+			tile.east = this.tileMap.get(`${tile.x}@${tile.y + 1}`)!.west;
+			if (tile.east === '') {
+				tile.east = randomWallFace();
+			}
+		}
+	}
+
+	setWestFace(tile: Tile) {
+		if (tile.y === 0) {
+			tile.west = 'wall';
+		} else {
+			tile.west = this.tileMap.get(`${tile.x}@${tile.y - 1}`)!.east;
+
+			if (tile.west === '') {
+				tile.west = randomWallFace();
+			}
 		}
 	}
 }
@@ -46,7 +94,7 @@ export class Tile {
 	}
 
 	key() {
-		return this.north + '-' + this.south + '-' + this.east + '-' + this.west;
+		return this.north + '-' + this.east + '-' + this.south + '-' + this.west;
 	}
 }
 

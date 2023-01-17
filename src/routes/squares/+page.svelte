@@ -21,8 +21,7 @@
 	const squareClicked = (event: CustomEvent) => {
 		
 		const tile = event.detail as Tile;
-		console.log(event.detail);
-		board.tileClicked(tile);
+		board.tileClicked(tile.name());
 		board = board
 		
 	};
